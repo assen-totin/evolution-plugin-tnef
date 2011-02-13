@@ -1,0 +1,46 @@
+# Makefile for tnef-plugin 
+
+SHELL = /bin/bash
+
+LIBTOOL = @MAKEFILE_LIBTOOL@
+LIBTOOL_OPTIONS_COMPILE = --tag=CC --mode=compile
+LIBTOOL_OPTIONS_LINK = --tag=CC --mode=link
+
+CC = @MAKEFILE_CC@
+CC_FLAGS = @DEFS@ -DORBIT2=1
+
+PRIVLIBDIR = `pkg-config --variable=privlibdir evolution-mail`
+PLUGIN_DIR = $(PRIVLIBDIR)/plugins
+
+INCLUDES = -I. `pkg-config --cflags-only-I evolution-mail` `pkg-config --cflags-only-I gtkhtml-editor-3.14`
+
+TARGET_LIBRARY = liborg-gnome-tnef-plugin.so
+TARGET_DATA = org-gnome-tnef-plugin.eplug 
+
+all:
+	$(SHELL) $(LIBTOOL) $(LIBTOOL_OPTIONS_COMPILE) $(CC) $(CC_FLAGS) $(INCLUDES) -pthread -g -O2 -Wall -Wmissing-prototypes  -Wno-sign-compare -MT tnef-plugin.lo -MD -MP -MF tnef-plugin.Tpo -c -o tnef-plugin.lo tnef-plugin.c
+	$(CC) $(CC_FLAGS) $(INCLUDES) -pthread -g -O2 -Wall -Wmissing-prototypes -Wno-sign-compare -MT tnef-plugin.lo -MD -MP -MF tnef-plugin.Tpo -c tnef-plugin.c  -fPIC -DPIC -o tnef-plugin.o
+	mv -f tnef-plugin.Tpo tnef-plugin.Plo
+	$(SHELL) $(LIBTOOL) $(LIBTOOL_OPTIONS_LINK) $(CC) -g -O2 -Wall -Wmissing-prototypes  -Wno-sign-compare -module -avoid-version -o liborg-gnome-tnef-attachments.la -rpath $(PLUGIN_DIR) tnef-plugin.lo
+	$(CC) -shared  tnef-plugin.o  -Wl,-soname -Wl,$(TARGET_LIBRARY) -o $(TARGET_LIBRARY)
+
+clean:
+	rm -f *.o
+	rm -f *.lo
+	rm -f *.la
+	rm -f *.so
+	rm -f *.Tpo
+	rm -f *.Plo
+
+distclean:
+	make clean
+	rm -f org-gnome-tnef-plugin.eplug tnef-plugin-0.0.4.spec Makefile
+
+install:
+	cp -f $(TARGET_LIBRARY) $(PLUGIN_DIR)
+	cp -f $(TARGET_DATA) $(PLUGIN_DIR) 
+
+uninstall:
+	rm -f $(PLUGIN_DIR)/$(TARGET_LIBRARY)
+	rm -f $(PLUGIN_DIR)/$(TARGET_DATA)
+

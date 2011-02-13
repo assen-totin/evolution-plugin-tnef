@@ -1,0 +1,13 @@
+This is a simple TNEF decoder for Evolution. It requires a version of Evolution which supports plugins. 
+
+This work is based on a demonstration code written by NotZed <notzed@novell.com>. It uses the ytnef binary as external programme to parse TNEF attachments and reveal their contents in the main mail view. 
+
+Note to users: I am aware that calling external binary is not the best from both performance and security point of view. It will be much better to use the libytnef library instead. Moreover, Evolution ships a TNEF plugin in the sources; it is probably better written than this one. If you build your system from source (Gentoo, LFS etc.) or just Evolution from source, please, use their original code. However, Fedora misses that plugin (or excludes it deliberately, I don't know) -- and I needed something which should be both working and easy to add to Fedora every time a new release pops up.
+
+Note to builders: The code should build with the familiar stanza "./configure && make && make install". In addition, this will build a proper spec for your platform from which you can then build an RPM file. To compile you'll need some packages which can most easily be obtained with the following commands (these are for F14 - for other version you might also need some other packages): 
+
+	yum groupinstall "Development Programs"
+	yum install evolution-devel evolution-data-server-devel gdk-pixbuf2-devel nspr-devel 
+	yum install ytnef
+
+Disclaimer: This programme should compile and install on all versions of Fedora 14; however, since I strongly dislike x86_64, I have only tested it on i686. Moreover, the fact it works for me does not guarantee it will work for you. Also, this programme is free software. Feel free to use it, modify it and distribute it. Full license is given in COPYING file. 

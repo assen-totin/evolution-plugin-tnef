@@ -1,0 +1,51 @@
+Summary: TNEF plugin for Evolution
+Name: tnef-plugin
+Version: @TNEF_PLUGIN_VERSION@
+Release: 1
+License: GPL
+Source: http://bilbo.online.bg/~assen/tnef-plugin/tnef-plugin-@TNEF_PLUGIN_VERSION@.tar.gz
+BuildRoot: /var/tmp/%{name}-buildroot
+Requires: evolution >= 2.32
+Requires: ytnef >= 2.6
+
+%description
+The TNEF plugin allows direct access from Evolution to email attachments, 
+sent in Microsoft's TNEF format (the infamous "winmail.dat").
+
+%prep
+%setup -q
+
+%build
+./configure
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT@EVOLUTION_PLUGIN_DIR@
+
+install -s -m 755 liborg-gnome-tnef-plugin.so $RPM_BUILD_ROOT@EVOLUTION_PLUGIN_DIR@
+install -m 644 org-gnome-tnef-plugin.eplug $RPM_BUILD_ROOT@EVOLUTION_PLUGIN_DIR@
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr(-,root,root)
+%doc README AUTHORS COPYING INSTALL
+
+@EVOLUTION_PLUGIN_DIR@/liborg-gnome-tnef-plugin.so
+@EVOLUTION_PLUGIN_DIR@/org-gnome-tnef-plugin.eplug
+
+%changelog
+* Sat Nov 13 2010 Assen Totin <assen@online.bg>
+- Added autoconf support; no changes in main code
+
+* Tue Nov 10 2010 Assen Totin <assen@online.bg>
+- Changes in source code to Evolution 2.32 (Fedora 14)
+
+* Sun May 30 2010 Assen Totin <assen@online.bg>
+- Changes in source code to Evolution 2.30 (Fedora 13)
+
+* Mon Nov 23 2009 Assen Totin <assen@online.bg>
+- Initial release.
+      

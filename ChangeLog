@@ -1,0 +1,26 @@
+2010-11-13 Assen Totin <assen@online.bg>
+
+	* Added autoconf support. No changes in main code.
+
+2010-11-10 Assen Totin <assen@online.bg>
+
+	* Modifiled source code to compile for Evolution 2.32 (Fedora 14)
+	as per changes in evolution-data-server.
+
+2010-05-30 Assen Totin <assen@online.bg>
+
+	* Modifiled source code to compile for Evolution 2.30 (Fedora 13)
+	as per EPlugin API changes.
+
+2009-11-22 Assen Totin <assen@online.bg>
+
+	* Modified the exit code value check when testing if ytnef binary is
+	present (as per Fedora 12).
+	* Because of changes in evolution packaging, replaced autoconf with a
+	fixed Makefile and config.h which match Fedora 12 configuration.
+
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* configure.ac: remove the need for evolution source.  bumped
+	version of eplugin required.
+

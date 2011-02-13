@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!-- "LOCATION" below should contain the path to and name of the shared object file -->
+<!-- It depends on Evolution prefix, so it will be determined when running ./configure -->
+<e-plugin-list>
+  <e-plugin
+    type="shlib"
+    id="org.gnome.assen.plugin.tnefPlugin"
+    location="@EVOLUTION_PLUGIN_DIR@/liborg-gnome-tnef-plugin.so"
+    domain="tnef-plugin"
+    localedir="/usr/share/locale"
+    _name="yTNEF decoder">
+    <_description>A simple plugin which uses ytnef to decode tnef attachments.</_description>
+    <author name="Assen Totin" email="assen@online.bg"/>
+
+    <hook class="org.gnome.evolution.mail.format:1.0">
+      <group id="EMFormatHTML">
+	<item flags="inline_disposition" mime_type="application/ms-tnef"
+	  format="org_gnome_assen_format_tnef"/>
+      </group>
+      <group id="EMFormatHTMLDisplay">
+	<item flags="inline_disposition" mime_type="application/ms-tnef"
+	  format="org_gnome_assen_format_tnef"/>
+      </group>
+    </hook>
+  </e-plugin>
+</e-plugin-list>
